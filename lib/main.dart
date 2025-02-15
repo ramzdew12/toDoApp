@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:todo/model/plans_model.dart';
+import 'package:todo/widgets/new_plan.dart';
 import 'package:todo/widgets/plans_info.dart';
 import 'package:todo/widgets/plans_list.dart';
 import 'package:todo/widgets/date_of_plans.dart';
@@ -74,12 +76,25 @@ class _PlansProgramState extends State<PlansProgram> {
     });
   }
 
-  int get _numberOfPlans{
+  void _addThePlan(String namePlan, DateTime dayPlan) {
+
+  }
+
+  int get _numberOfPlans {
     return plans.length;
   }
 
-  int get _numberOfPlansDone{
+  int get _numberOfPlansDone {
     return plans.where((plan) => plan.isDone).length;
+  }
+
+  void _plansAddScreen(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) {
+        return NewPlan(_addThePlan);
+      },
+    );
   }
 
   @override
@@ -96,12 +111,14 @@ class _PlansProgramState extends State<PlansProgram> {
           SizedBox(
             height: 30,
           ),
-          PlansInfo(_numberOfPlans,_numberOfPlansDone),
+          PlansInfo(_numberOfPlans, _numberOfPlansDone),
           PlansList(plans, _donePicked, _planRemove),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _plansAddScreen(context);
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.amberAccent,
       ),
